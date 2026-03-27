@@ -18,9 +18,10 @@ type TopbarProps = {
   sessionName: string;
   code: string;
   classId: string;
+  onOpenWhiteboard: () => void;
 };
 
-export const Topbar = ({ sessionName, code, classId }: TopbarProps) => {
+export const Topbar = ({ sessionName, code, classId, onOpenWhiteboard }: TopbarProps) => {
   const { user } = useAuth();
   const isInstructor = user?.role === "Instructor";
   const navigate = useNavigate();
@@ -82,7 +83,8 @@ export const Topbar = ({ sessionName, code, classId }: TopbarProps) => {
           <EngagementButton />
           <PulseButton />
           <PollButton />
-          <WhiteboardButton />
+          <WhiteboardButton  onClick={onOpenWhiteboard}/>
+          
         </div>
       )}
 

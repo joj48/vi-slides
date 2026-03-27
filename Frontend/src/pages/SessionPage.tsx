@@ -8,7 +8,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import type { GetClassResponse } from "@/lib/api";
 import { getClassById } from "@/lib/api";
-
+import Whiteboard from "@/components/Whiteboard";
 import { getSocket } from "@/lib/socket";
 
 const SessionPage = () => {
@@ -18,6 +18,7 @@ const SessionPage = () => {
   const [classData, setClassData] = useState<GetClassResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showWhiteboard, setShowWhiteboard] = useState(false); 
 
   useEffect(() => {
     if (!classId) return;
@@ -118,7 +119,23 @@ useEffect(() => {
             sessionName={classData.title}
             code={classData.classCode}
             classId={classData._id}
+            onOpenWhiteboard={() => setShowWhiteboard(true)}
           />
+
+          {showWhiteboard && (
+  <div
+    className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+    onClick={() => setShowWhiteboard(false)} // ✅ outside click closes
+  >
+    <div
+      className="w-[90%] h-[90%] bg-white rounded-lg overflow-hidden relative"
+      onClick={(e) => e.stopPropagation()} // ✅ prevent inside click close
+    >
+
+      <Whiteboard />
+    </div>
+  </div>
+)}
 
           <div className="flex-1 p-6">
             <Card className="h-full card-glass p-6">
